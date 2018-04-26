@@ -1,7 +1,10 @@
+//引入express模块
 const express = require('express');
 const app = express();
-//连接数据库
+
+//引入数据库模块
 const mongoose = require('mongoose');
+//连接数据库
 mongoose.connect(require('./keys/dburi'),(err) => {
     if(err){
         console.log('数据库连接失败'+err);
@@ -9,17 +12,26 @@ mongoose.connect(require('./keys/dburi'),(err) => {
     }
     console.log('数据库连接成功');
 });
+
+//引入跨域模块
+const cors = require('cors');
+//设置跨域
+app.use(cors({credentials: true, origin: 'http://localhost:8080'}))
+
+//引入cookies模块
+const cookieParser = require('cookie-parser');
+//设置cookies
+app.use(cookieParser())
+
 //加载body-parser处理post数据
 const bodyParser = require('body-parser');
+//设置bodyPasrser
 app.use(bodyParser.urlencoded({extended:true}))
+
 //处理API相关
-//设置跨域
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
 app.use('/api',require('./router/api'))
-app.listen(3000)
+
+let prot=3000;
+app.listen(prot,() => {
+    console.log('服务器开启成功,监听'+prot+'端口');
+})

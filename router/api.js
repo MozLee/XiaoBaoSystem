@@ -38,6 +38,14 @@ router.post('/admin',(req,res,next) => {
        if(result){
         resData.code = 0;
         resData.message = '登陆成功';
+        resData.userInfo = {
+            _id:result._id,
+            username:result.username
+        }
+        //发送cookie
+        res.cookie('userInfo',JSON.stringify({
+            _id:result._id,
+            username:result.username}))
         res.json(resData)
        }else{
         resData.code = 1;
