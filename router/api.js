@@ -13,6 +13,7 @@ router.use((req,res,next) => {
 })
 router.get('/userinfo',(req,res,next) => {
     // res.send('123')
+    // TODO: user
 })
 //处理admin登录请求
 router.post('/admin',(req,res,next) => {
