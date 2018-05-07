@@ -12,7 +12,8 @@ mongoose.connect(require('./keys/dburi'),(err) => {
     }
     console.log('数据库连接成功');
 });
-
+console.log(__dirname)
+app.use(express.static(__dirname+'/public'))
 //引入跨域模块
 const cors = require('cors');
 //设置跨域

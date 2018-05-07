@@ -1,19 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const Admin = require('../model/admin');
-
-let resData;
-
+const User = require('../model/user')
+let resData,usersData;
 router.use((req,res,next) => {
     resData={
         code:-1,
         message:''
     }
+    usersData = {
+      success:false,
+      data:[]
+    }
     next();
 })
-router.get('/userinfo',(req,res,next) => {
-    // res.send('123')
-    // TODO: user
+router.get('/allusers',(req,res,next) => {
+    User.find({}).then((result)=>{
+      console.log(result);
+      usersData.success = true;
+      usersData.data = result;
+      res.json(usersData)
+    });
 })
 //处理admin登录请求
 router.post('/admin',(req,res,next) => {
