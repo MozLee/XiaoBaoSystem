@@ -15,15 +15,26 @@ router.use((req,res,next) => {
     next();
 })
 router.get('/allusers',(req,res,next) => {
-    User.find({}).then((result)=>{
-      console.log(result);
+    if(req.session.username){
+      console.log(req.session.username)
+      console.log(`可以请求数据`)
+      User.find({}).then((result)=>{
+      // console.log(result);
       usersData.success = true;
       usersData.data = result;
       res.json(usersData)
     });
+    }else{
+      console.log(`无权限请求数据`);
+      usersData.success = false;
+      usersData.data = `无权限获取数据库，请重新登录`;
+      res.json(usersData)
+    }
+   
 })
 //处理admin登录请求
 router.post('/admin',(req,res,next) => {
+  console.log(`session`+req.session)
    let username = req.body.username;
    let password = req.body.password;
    if(!username||username==''){
@@ -38,6 +49,7 @@ router.post('/admin',(req,res,next) => {
        res.json(resData);
        return;
    }
+
    Admin.findOne({
        username,
        password
@@ -50,10 +62,11 @@ router.post('/admin',(req,res,next) => {
             _id:result._id,
             username:result.username
         }
-        //发送cookie
-        res.cookie('userInfo',JSON.stringify({
-            _id:result._id,
-            username:result.username}))
+        // //发送cookie
+        // res.cookie('userInfo',JSON.stringify({
+        //     _id:result._id,
+        //     username:result.username}))
+        req.session.username = username;
         res.json(resData)
        }else{
         resData.code = 1;
