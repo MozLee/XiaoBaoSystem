@@ -20,11 +20,12 @@ const cors = require('cors');
 app.use(cors({credentials: true, origin: 'http://localhost:8080'}))
 
 app.use(session({
+  name:'identityKey', 
   secret : 'secret', // 对session id 相关的cookie 进行签名
   resave : true,
   saveUninitialized: false, // 是否保存未初始化的会话
   cookie : {
-    maxAge : 1000 * 10 * 1, // 设置 session 的有效时间，单位毫秒
+    maxAge : 1000 * 60 * 60, // 设置 session 的有效时间，单位毫秒
   },
 }));
 
