@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Admin = require('../model/admin');
-const User = require('../model/user')
+const User = require('../model/user');
+const axios = require('axios')
 let resData, usersData;
 router.use((req, res, next) => {
     resData = {
@@ -18,6 +19,53 @@ router.use((req, res, next) => {
     }
     next();
 })
+//TODO:处理请求失败
+//从wechaty更新数据到数据库
+router.get('/updateall',(req,res,next) => {
+    if(req.session.username){
+        axios.get('http://localhost:3001/updateall')
+        .then((result) => {
+            if(result.data.code===0){
+                //成功
+                let newData = result.data.data;
+                newData.forEach(item => {
+                    if(!item.obj.alias){
+                        console.log(`用户${item.obj.name}不存在ID,不允许更新`);
+                        return;
+                    }
+                    let user = User.findOne({alias:item.obj.alias},(err) => {
+                        if(err) console.log(`未找到该用户${item.obj.name}`);
+                    })
+                    user.update({$set:{
+                        name:item.obj.name,//微信昵称
+                        alias:item.obj.alias,//备注昵称
+                        sex:item.obj.sex,//性别 1男 2女
+                        province:item.obj.province,//省
+                        city:item.obj.city,//城市
+                        signature:item.obj.signature,//个性签名
+                        address:item.obj.address,//地址
+                        star:item.obj.star,//星标好友
+                        stranger:item.obj.stranger,//陌生人
+                        avatar:item.obj.avatar,//头像地址
+                        official:item.obj.official,//官方？？？？？
+                        special:item.obj.special,//特别关心???
+                    }},(err) => {
+                        if(err){
+                            console.log('更新数据失败'+err);
+                            return;
+                        }
+                        console.log(`${item.obj.name}从wechaty更新成功`);
+                    })
+                });
+                res.json({
+                    code:0,
+                    message:'数据从wecahty更新成功'
+                })
+            }
+        })
+    }
+})
+//获取所有用户
 router.get('/allusers', (req, res, next) => {
     if (req.session.username) {
         console.log(req.session.username)
