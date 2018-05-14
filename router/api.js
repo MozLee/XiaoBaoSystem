@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Admin = require('../model/admin');
 const User = require('../model/user');
+const XiaoBaoState = require('../model/xbstate')
 const axios = require('axios')
 let resData, usersData;
 router.use((req, res, next) => {
@@ -62,8 +63,29 @@ router.get('/updateall',(req,res,next) => {
                     message:'数据从wecahty更新成功'
                 })
             }
+        }).catch((err)=> {
+            // body...
+            console.log('Error' + err);
+            res.json({
+                code:1,
+                message:'数据从wecahty更新失败'
+            })
         })
     }
+})
+router.get('/xiaobaostate',(req,res,next) => {
+    if (!req.session.username) return;
+    XiaoBaoState.find({},(err,doc) => {
+        if(err){
+            console.log(err);
+            return;
+        }
+        res.json({
+            code:0,
+            message:'请求成功',
+            data:doc[0]
+        })
+    })
 })
 //获取所有用户
 router.get('/allusers', (req, res, next) => {
