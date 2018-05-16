@@ -3,6 +3,7 @@ const router = express.Router();
 const Admin = require('../model/admin');
 const User = require('../model/user');
 const XiaoBaoState = require('../model/xbstate')
+const WeatherTime = require('../model/weathertime')
 const axios = require('axios')
 let resData, usersData;
 router.use((req, res, next) => {
@@ -86,6 +87,32 @@ router.get('/xiaobaostate',(req,res,next) => {
             data:doc[0]
         })
     })
+})
+//设置推送天气时间
+router.get('/setweathertime',(req,res,next) => {
+    if(!req.session.username) return
+    let time = req.query.time;
+    let n = time.split(':')
+    console.log(`0 ${n[1]} ${n[0]} * * *`);
+    WeatherTime.findOne({id:'newtime'},(err,doc) => {
+        doc.time = `0 ${n[1]} ${n[0]} * * *`;
+        doc.save();
+    })
+    res.json({
+        code:0,
+        message:'推送时间设置成功,该时间将在下次推送天气后生效！'
+    })
+})
+router.get('/weathertime',(req,res,next) => {
+    if(!req.session.username) return;
+    WeatherTime.find({},(err,doc) => {
+       console.log(doc);
+       res.json({
+        code:0,
+        message:doc
+    })
+    })
+    
 })
 //获取所有用户
 router.get('/allusers', (req, res, next) => {
