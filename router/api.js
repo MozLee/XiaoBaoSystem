@@ -21,7 +21,7 @@ router.use((req, res, next) => {
     }
     next();
 })
-//TODO:处理请求失败
+//TODO:处理请求失败 IMPORTANT
 //从wechaty更新数据到数据库
 router.get('/updateall',(req,res,next) => {
     if(req.session.username){
