@@ -37,7 +37,7 @@
 | /updateall| 从Wechat更新最新的数据到小宝数据库 | GET |  | Object |
 
 ## 遇到问题&解决方案
-**问题1:**前端请求数据的跨域问题。
+**问题1** 前端请求数据的跨域问题。
 
 - [x] 在后端设置允许跨域。
 ```
@@ -50,11 +50,11 @@ app.use(function(req, res, next) {
 });
 ```
 
-**问题2:**设置跨域后,前端发送POST请求，后端接收不到数据。
+**问题2** 设置跨域后,前端发送POST请求，后端接收不到数据。
 
 - [x] 前端使用axios发送ajax请求时，需要使用qs包格式一下POST的参数。
 
-**问题3:**无法成功设置登录状态Cookie
+**问题3** 无法成功设置登录状态Cookie
 
 - [x] 需要再添加一条 Access-Control-Allow-Credentials:true
 表示允许跨域携带cookie，
