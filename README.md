@@ -73,4 +73,10 @@ withCredentials: true
 
 **其他**问题我将会在[博客][1]中进行总结
 
+## 小宝系统
+- [小宝管理系统--前端(移动端)](https://github.com/MozLee/XiaoBaoManagement) 技术栈 vue+vue-router+vuex+vux
+
+- [小宝管理系统--后端](https://github.com/MozLee/XiaoBaoSystem) 技术栈 Nodejs+Express+MongoDB
+
+- [小宝Robot](https://github.com/MozLee/XiaoBaoRobot) 技术栈 Nodejs + Wechaty
   [1]: http://blog.mozlee.com/2018/04/26/%E5%B0%8F%E5%AE%9D%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%88%AC%E5%9D%91%E8%AE%B0%E5%BD%95/
