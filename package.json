@@ -15,6 +15,6 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "mongoose": "^5.0.15"
+    "mongoose": "^5.7.5"
   }
 }
